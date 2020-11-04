@@ -13,11 +13,22 @@
 
     <section class="content">
         <div class="card">
-            <!-- <div class="card__imgCont">
-                <img class="card__imgCont__img" src="https://img.huffingtonpost.com/asset/5c9316d72300003000e8d220.jpeg?ops=1200_630" alt="">
-            </div> -->
-            <div class="card__text">
+
+            <!-- <div class="card__text">
                 <p class="text"></p>
+            </div> -->
+            <!-- <div class="card__item">
+                <div class="card__item__filter">
+                    <select class="card__item__filter__select">
+                        <option class="card__item__filter__select__option" value="voirTous">voir tous</option>
+                        <option class="card__item__filter__select__option" value="voirPing">voir Ping</option>
+                        <option class="card__item__filter__select__option" value="voirPong">voir Pong</option>
+                        <option class="card__item__filter__select__option" value="voirPingPong">voir Ping Pong</option>
+                    </select>
+                </div>
+            </div> -->
+            <div class="card__item">
+                <p class="card__item__text"></p>
             </div>
         </div>
     </section>
@@ -43,12 +54,13 @@
         width: 100vw;
         height: 100vh;
         display: grid;
-        grid-template-areas: 
+        grid-template-areas:
         "navbar"
         "content"
         "footer"
         ;
         grid-template-rows: 5rem 1fr 5rem;
+        grid-template-columns: 1fr;
         background-color: grey;
     }
 
@@ -87,7 +99,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 20vh 0;
+        padding: 5vh 0;
     }
 
     .card{
@@ -97,40 +109,34 @@
         height: 100%;
         border-radius: 1.2rem;
          display: grid;
-        grid-template-columns: 40% 60%;  
+        grid-template-columns: 1fr;
         box-shadow: #333333 0.5rem 0.5rem 1rem;
         animation: fadeIn 1s ease-out forwards;
     }
 
-    .card__imgCont{
-        width: 100%;
-        height: 100%;
-    }
 
-    .card__imgCont__img{
-        object-fit: cover;
-        width: 100%;
-        height: 100%;
-        border-radius: 1.2rem 0 0 1.2rem;
-    }
-
-    .card__text{
+    .card__item{
         display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+        justify-content: center;
+        align-items: center;
         padding: 3rem;
+        height: 100%;
+    }
+
+    .card__item__text{
+        background-color: rgb(195, 195, 195);
+        max-height: 40vh;
+        width: 100%;
+        overflow-y: scroll;
+        font-size: 2rem;
+        border: 1px solid black;
     }
 
     .card__text__title{
         font-size: 3rem;
     }
 
-    .card__text__subTitle{
-        opacity: 0;
-        margin-top: 2rem;
-        font-size: 1.5rem;
-        animation: fadeIn 1s 1s ease-out forwards;
-    }
+
 
     @keyframes fadeIn {
         from{transform: translateX(-15rem); opacity: 0;}
@@ -156,7 +162,7 @@
         font-size: 12px;
     }
     .card{
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr;
     }
     .card__imgCont__img{
         border-radius: 1.2rem;
@@ -169,7 +175,7 @@
         font-size: 8px;
     }
     .card{
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr;
     }
 }
 
@@ -178,44 +184,77 @@
 <script>
 
 const pingPong = {
-    mainElement : document.querySelector(".text"),
+    mainElement : document.querySelector(".card__item__text"),
+
+    selectElement : document.querySelector(".card__item__filter__select"),
+
+    selectValue : "voirTous",
+
+    ping : [],
+    pong : [],
+    pingPong : [],
+
     from : 1,
     to : 100,
+
+    eraseContent : () =>{
+        pingPong.mainElement.innerHTML = "";
+    },
+
     loop : () =>{
         for(i = pingPong.from; i <= pingPong.to; i++){
-            pingPong.createElements(i);
-            pingPong.checkElements(i);
+            if(pingPong.selectValue == "voirTous"){
+                pingPong.appendElements(pingPong.createElements(i));
+            }
+            else if(pingPong.selectValue == "voirPing"){
+                pingPong.appendElements(pingPong.createElements(i));
+            }
+            else if(pingPong.selectValue == "voirPong"){
+                pingPong.appendElements(pingPong.createElements(i));
+            }
+            else if(pingPong.selectValue == "pingPong"){
+                pingPong.appendElements(pingPong.createElements(i));
+            }
         }
     },
 
     createElements : (number) =>{
         const main = pingPong.mainElement;
         const parent = document.createElement("p");
-        const textContent = pingPong.checkElements(number);
-        const child = document.createTextNode(textContent); 
-        pingPong.appendElements(main, parent, child);
+        pingPong.checkPingOrPong(number, parent, pingPong.selectValue);
+        const textContent = number + pingPong.checkPingOrPong(number, parent);
+        const child = document.createTextNode(textContent);
+        return {main : main, parent : parent,textContent: textContent,child: child};
     },
 
-    appendElements : (main, parent, child) =>{
-        parent.appendChild(child);
-        main.appendChild(parent);
+    appendElements : (elements) =>{
+        elements.parent.appendChild(elements.child);
+        elements.main.appendChild(elements.parent);
     },
 
-    checkElements : (number) =>{
+
+    checkPingOrPong : (number, parent, select) =>{
         if(number % 5 == 0 && number % 3 == 0){
-            return number + " ping pong"
+            pingPong.changeTextColor(parent, "blue");
+            return " ping pong"
         }
         if(number % 5 == 0){
-            return number + " pong"
+            pingPong.changeTextColor(parent, "green");
+            return " pong"
         }
         if(number % 3 == 0){
-            return number + " ping"
+            pingPong.changeTextColor(parent, "purple");
+            return " ping"
         } else{
-            return number;
+            return "";
         }
     },
-    
-    
+
+    changeTextColor : (element, color) =>{
+        element.style.color = color;
+    },
+
+
 }
 
 pingPong.loop();
