@@ -192,18 +192,7 @@ const pingPong = {
 
     loop : () =>{
         for(i = pingPong.from; i <= pingPong.to; i++){
-            if(pingPong.selectValue == "voirTous"){
                 pingPong.appendElements(pingPong.createElements(i));
-            }
-            else if(pingPong.selectValue == "voirPing"){
-                pingPong.appendElements(pingPong.createElements(i));
-            }
-            else if(pingPong.selectValue == "voirPong"){
-                pingPong.appendElements(pingPong.createElements(i));
-            }
-            else if(pingPong.selectValue == "pingPong"){
-                pingPong.appendElements(pingPong.createElements(i));
-            }
         }
     },
 
