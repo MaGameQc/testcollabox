@@ -186,20 +186,9 @@
 const pingPong = {
     mainElement : document.querySelector(".card__item__text"),
 
-    selectElement : document.querySelector(".card__item__filter__select"),
-
-    selectValue : "voirTous",
-
-    ping : [],
-    pong : [],
-    pingPong : [],
-
     from : 1,
     to : 100,
 
-    eraseContent : () =>{
-        pingPong.mainElement.innerHTML = "";
-    },
 
     loop : () =>{
         for(i = pingPong.from; i <= pingPong.to; i++){
