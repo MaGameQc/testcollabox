@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merci Collabox !</title>
+</head>
+<body id="main">
+    <nav class="navbar">
+        <p class="navbar__name">Tommy Audet</p>
+        <a class="navbar__link" href="https://www.tommyaudet.providedspace.com">Voir Portfolio</a>
+    </nav>
+
+    <section class="content">
+        <div class="card">
+            <!-- <div class="card__imgCont">
+                <img class="card__imgCont__img" src="https://img.huffingtonpost.com/asset/5c9316d72300003000e8d220.jpeg?ops=1200_630" alt="">
+            </div> -->
+            <div class="card__text">
+                <p class="text"></p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p class="footer__copyright">© 2020 aucun droits d'auteurs réservés.</p>
+    </footer>
+</body>
+</html>
+
+
+<style>
+    *{
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    html{
+        font-size: 16px;
+    }
+
+    #main{
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+        grid-template-areas: 
+        "navbar"
+        "content"
+        "footer"
+        ;
+        grid-template-rows: 5rem 1fr 5rem;
+        background-color: grey;
+    }
+
+    .navbar{
+        grid-area: navbar;
+        background-color: rgb(252,198,61);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 3rem;
+    }
+
+    .navbar__name{
+        font-size: 1.5rem;
+        font-weight: 1000;
+        color: #333333;
+    }
+
+    .navbar__link{
+        text-decoration: none;
+        font-size: 2rem;
+        color: white;
+        background-color: #333333 ;
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+    }
+
+    .navbar__link:hover{
+        color: #333333;
+        background-color: white ;
+    }
+
+    .content{
+        grid-area: content;
+        background-color: #f8f8f8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20vh 0;
+    }
+
+    .card{
+        opacity: 0;
+        background-color: rgb(252,198,61);
+        width: 70%;
+        height: 100%;
+        border-radius: 1.2rem;
+         display: grid;
+        grid-template-columns: 40% 60%;  
+        box-shadow: #333333 0.5rem 0.5rem 1rem;
+        animation: fadeIn 1s ease-out forwards;
+    }
+
+    .card__imgCont{
+        width: 100%;
+        height: 100%;
+    }
+
+    .card__imgCont__img{
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        border-radius: 1.2rem 0 0 1.2rem;
+    }
+
+    .card__text{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 3rem;
+    }
+
+    .card__text__title{
+        font-size: 3rem;
+    }
+
+    .card__text__subTitle{
+        opacity: 0;
+        margin-top: 2rem;
+        font-size: 1.5rem;
+        animation: fadeIn 1s 1s ease-out forwards;
+    }
+
+    @keyframes fadeIn {
+        from{transform: translateX(-15rem); opacity: 0;}
+        to{transform: translateX(0); opacity: 1;}
+    }
+
+    .footer{
+        grid-area: footer;
+        background-color: #1c1c1c;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .footer__copyright{
+        color: white;
+        font-size: 1rem;
+    }
+
+    /* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (max-width: 992px) {
+    html{
+        font-size: 12px;
+    }
+    .card{
+        grid-template-columns: 1fr; 
+    }
+    .card__imgCont__img{
+        border-radius: 1.2rem;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 768px) {
+    html{
+        font-size: 8px;
+    }
+    .card{
+        grid-template-columns: 1fr; 
+    }
+}
+
+</style>
+
+<script>
+
+const pingPong = {
+    mainElement : document.querySelector(".text"),
+    from : 1,
+    to : 100,
+    loop : () =>{
+        for(i = pingPong.from; i <= pingPong.to; i++){
+            pingPong.createElements(i);
+            pingPong.checkElements(i);
+        }
+    },
+
+    createElements : (number) =>{
+        const main = pingPong.mainElement;
+        const parent = document.createElement("p");
+        const textContent = pingPong.checkElements(number);
+        const child = document.createTextNode(textContent); 
+        pingPong.appendElements(main, parent, child);
+    },
+
+    appendElements : (main, parent, child) =>{
+        parent.appendChild(child);
+        main.appendChild(parent);
+    },
+
+    checkElements : (number) =>{
+        if(number % 5 == 0 && number % 3 == 0){
+            return number + " ping pong"
+        }
+        if(number % 5 == 0){
+            return number + " pong"
+        }
+        if(number % 3 == 0){
+            return number + " ping"
+        } else{
+            return number;
+        }
+    },
+    
+    
+}
+
+pingPong.loop();
+
+
+</script>
